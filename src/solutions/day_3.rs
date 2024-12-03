@@ -10,9 +10,6 @@ static MUL: LazyLock<Regex> =
 static COND_MUL: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"(mul\([0-9]{1,3},[0-9]{1,3}\))|(do\(\))|(don't\(\))").unwrap());
 
-#[derive(Clone, Copy)]
-pub struct AocDayThreeSolution;
-
 fn as_mul(s: &str) -> u64 {
     let (a, b) = s[4..(s.len() - 1)]
         .split_once(',')
@@ -21,6 +18,9 @@ fn as_mul(s: &str) -> u64 {
 
     a * b
 }
+
+#[derive(Clone, Copy)]
+pub struct AocDayThreeSolution;
 
 impl AocSolution for AocDayThreeSolution {
     type Output = u64;
