@@ -35,7 +35,7 @@ impl LevelValidator {
 }
 
 impl AocSolution for AocDayTwoSolution {
-    type Output = usize;
+    type Output = u64;
     const INPUT: &str = include_str!("../../input/day2.txt");
 
     fn part_one(&self) -> Self::Output {
@@ -49,7 +49,7 @@ impl AocSolution for AocDayTwoSolution {
                     .collect::<Vec<_>>()
             })
             .filter(|s| validator.is_safe(s))
-            .count()
+            .count() as u64
     }
 
     fn part_two(&self) -> Self::Output {
@@ -63,6 +63,6 @@ impl AocSolution for AocDayTwoSolution {
                     .collect::<Vec<_>>()
             })
             .filter(|s| validator.is_safe(s) || validator.is_safe_with_rem(s))
-            .count()
+            .count() as u64
     }
 }
