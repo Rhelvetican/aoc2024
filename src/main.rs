@@ -1,7 +1,7 @@
-use aoc2024::solutions::{day_3::AocDayThreeSolution, AocSolution};
+use aoc2024::solutions::{day_4::AocDayFourSolution, AocSolution};
 
 fn main() {
-    let sol = AocDayThreeSolution;
+    let sol = AocDayFourSolution;
 
     println!("p1: {}\np2: {}", sol.part_one(), sol.part_two())
 }
