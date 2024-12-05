@@ -1,6 +1,10 @@
+use std::path::Path;
+
+use crate::utils::Result;
+
 macro_rules! define_solution {
     ($($id:ident),+ $(,)?) => {
-        $(pub mod $id;)+
+        $(mod $id; pub use $id::*;)+
     };
 }
 
@@ -11,8 +15,8 @@ define_solution!(
 
 pub trait AocSolution {
     type Output;
-    const INPUT: &str;
 
-    fn part_one(&self) -> Self::Output;
-    fn part_two(&self) -> Self::Output;
+    fn get_input(&self, path: Option<&Path>) -> Result<String>;
+    fn part_one(&self, input: &str) -> Result<Self::Output>;
+    fn part_two(&self, input: &str) -> Result<Self::Output>;
 }

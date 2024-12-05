@@ -1,8 +1,9 @@
-use std::sync::LazyLock;
+use std::{fs::read_to_string, path::Path, sync::LazyLock};
 
 use regex::Regex;
 
 use super::AocSolution;
+use crate::utils::Result;
 
 static MUL: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"mul\([0-9]{1,3},[0-9]{1,3}\)").unwrap());
@@ -24,18 +25,21 @@ pub struct AocDayThreeSolution;
 
 impl AocSolution for AocDayThreeSolution {
     type Output = u64;
-    const INPUT: &str = include_str!("../../input/day3.txt");
 
-    fn part_one(&self) -> Self::Output {
-        MUL.find_iter(Self::INPUT)
-            .map(|x| x.as_str())
-            .map(as_mul)
-            .sum()
+    fn get_input(&self, path: Option<&Path>) -> Result<String> {
+        Ok(match path {
+            Some(p) => read_to_string(p)?,
+            None => read_to_string("./input/day_3.txt")?,
+        })
     }
 
-    fn part_two(&self) -> Self::Output {
-        COND_MUL
-            .find_iter(Self::INPUT)
+    fn part_one(&self, input: &str) -> Result<Self::Output> {
+        Ok(MUL.find_iter(input).map(|x| x.as_str()).map(as_mul).sum())
+    }
+
+    fn part_two(&self, input: &str) -> Result<Self::Output> {
+        Ok(COND_MUL
+            .find_iter(input)
             .map(|x| x.as_str())
             .fold((0, true), |(sum, flag), cut| {
                 if cut.starts_with("mul") && flag {
@@ -46,6 +50,6 @@ impl AocSolution for AocDayThreeSolution {
                     (sum, false)
                 }
             })
-            .0
+            .0)
     }
 }

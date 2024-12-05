@@ -1,7 +1,36 @@
-use aoc2024::solutions::{day_5::AocDayFiveSolution, AocSolution};
+use ansi_term::enable_ansi_support;
+use aoc2024::{
+    cli::AocCli,
+    map_solution,
+    solutions::{
+        AocDayFiveSolution, AocDayFourSolution, AocDayOneSolution, AocDayThreeSolution,
+        AocDayTwoSolution, AocSolution,
+    },
+    utils::{Error, Result},
+};
+use clap::Parser;
 
-fn main() {
-    let sol = AocDayFiveSolution;
+fn main() -> Result<()> {
+    if let Err(e) = enable_ansi_support() {
+        println!("{e}");
+    }
 
-    println!("p1: {}\np2: {}", sol.part_one(), sol.part_two())
+    let cli = match AocCli::try_parse() {
+        Ok(cli) => cli,
+        Err(e) => {
+            println!("{}", e.render().ansi());
+            return Ok(());
+        }
+    };
+
+    println!("Solution for Day {}:", cli.day);
+    map_solution! {cli :
+        1 => AocDayOneSolution,
+        2 => AocDayTwoSolution,
+        3 => AocDayThreeSolution,
+        4 => AocDayFourSolution,
+        5 => AocDayFiveSolution,
+    };
+
+    Ok(())
 }

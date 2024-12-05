@@ -1,6 +1,7 @@
-use std::{cmp::Ordering, collections::HashMap};
+use std::{cmp::Ordering, collections::HashMap, fs::read_to_string, path::Path};
 
 use super::AocSolution;
+use crate::utils::{Error, Result};
 
 #[derive(Debug)]
 struct RuleChecker {
@@ -76,17 +77,23 @@ pub struct AocDayFiveSolution;
 
 impl AocSolution for AocDayFiveSolution {
     type Output = u64;
-    const INPUT: &str = include_str!("../../input/day5.txt");
 
-    fn part_one(&self) -> Self::Output {
-        let (rules, prints) = Self::INPUT.split_once("\r\n\r\n").unwrap_or(("", ""));
-        let checker = RuleChecker::new(rules, prints);
-        checker.compute_validated_print()
+    fn get_input(&self, path: Option<&Path>) -> Result<String> {
+        Ok(match path {
+            Some(p) => read_to_string(p)?,
+            None => read_to_string("./input/day_5.txt")?,
+        })
     }
 
-    fn part_two(&self) -> Self::Output {
-        let (rules, prints) = Self::INPUT.split_once("\r\n\r\n").unwrap_or(("", ""));
+    fn part_one(&self, input: &str) -> Result<Self::Output> {
+        let (rules, prints) = input.split_once("\r\n\r\n").ok_or(Error::InvalidInput)?;
+        let checker = RuleChecker::new(rules, prints);
+        Ok(checker.compute_validated_print())
+    }
+
+    fn part_two(&self, input: &str) -> Result<Self::Output> {
+        let (rules, prints) = input.split_once("\r\n\r\n").ok_or(Error::InvalidInput)?;
         let mut checker = RuleChecker::new(rules, prints);
-        checker.compute_invalid_print()
+        Ok(checker.compute_invalid_print())
     }
 }

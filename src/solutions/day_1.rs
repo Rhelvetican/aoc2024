@@ -1,16 +1,23 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fs::read_to_string, path::Path};
 
 use super::AocSolution;
+use crate::utils::Result;
 
 #[derive(Clone, Copy)]
 pub struct AocDayOneSolution;
 
 impl AocSolution for AocDayOneSolution {
     type Output = u64;
-    const INPUT: &str = include_str!("../../input/day1.txt");
 
-    fn part_one(&self) -> Self::Output {
-        let (mut left, mut right) = Self::INPUT
+    fn get_input(&self, path: Option<&Path>) -> Result<String> {
+        Ok(match path {
+            Some(p) => read_to_string(p)?,
+            None => read_to_string("./input/day_1.txt")?,
+        })
+    }
+
+    fn part_one(&self, input: &str) -> Result<Self::Output> {
+        let (mut left, mut right) = input
             .lines()
             .filter_map(|s| s.split_once(' ').map(|(s, x)| (s.trim(), x.trim())))
             .filter_map(
@@ -28,16 +35,18 @@ impl AocSolution for AocDayOneSolution {
         left.sort();
         right.sort();
 
-        left.into_iter()
+        Ok(left
+            .into_iter()
             .zip(right)
             .map(|(l, r)| if l > r { l - r } else { r - l })
-            .sum()
+            .sum())
     }
-    fn part_two(&self) -> Self::Output {
+
+    fn part_two(&self, input: &str) -> Result<Self::Output> {
         let mut cache = HashMap::<u64, u64>::new();
         let mut similarity_score = 0;
 
-        let (left, right) = Self::INPUT
+        let (left, right) = input
             .lines()
             .filter_map(|s| s.split_once(' ').map(|(s, x)| (s.trim(), x.trim())))
             .filter_map(
@@ -62,6 +71,6 @@ impl AocSolution for AocDayOneSolution {
             }
         }
 
-        similarity_score
+        Ok(similarity_score)
     }
 }

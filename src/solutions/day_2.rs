@@ -1,4 +1,7 @@
+use std::{fs::read_to_string, path::Path};
+
 use super::AocSolution;
+use crate::utils::Result;
 
 fn is_safe(levels: &[i32]) -> bool {
     let dec = levels[0] > levels[1];
@@ -32,10 +35,16 @@ pub struct AocDayTwoSolution;
 
 impl AocSolution for AocDayTwoSolution {
     type Output = u64;
-    const INPUT: &str = include_str!("../../input/day2.txt");
 
-    fn part_one(&self) -> Self::Output {
-        Self::INPUT
+    fn get_input(&self, path: Option<&Path>) -> Result<String> {
+        Ok(match path {
+            Some(p) => read_to_string(p)?,
+            None => read_to_string("./input/day_2.txt")?,
+        })
+    }
+
+    fn part_one(&self, input: &str) -> Result<Self::Output> {
+        Ok(input
             .lines()
             .map(|n| {
                 n.split_whitespace()
@@ -43,11 +52,11 @@ impl AocSolution for AocDayTwoSolution {
                     .collect::<Vec<_>>()
             })
             .filter(|s| is_safe(s))
-            .count() as u64
+            .count() as u64)
     }
 
-    fn part_two(&self) -> Self::Output {
-        Self::INPUT
+    fn part_two(&self, input: &str) -> Result<Self::Output> {
+        Ok(input
             .lines()
             .map(|n| {
                 n.split_whitespace()
@@ -55,6 +64,6 @@ impl AocSolution for AocDayTwoSolution {
                     .collect::<Vec<_>>()
             })
             .filter(|s| is_safe(s) || is_safe_with_rem(s))
-            .count() as u64
+            .count() as u64)
     }
 }

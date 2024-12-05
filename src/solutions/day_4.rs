@@ -1,6 +1,7 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fs::read_to_string, path::Path};
 
 use super::AocSolution;
+use crate::utils::Result;
 
 const DIRS: [(i16, i16); 8] = [
     (1, 0),
@@ -73,11 +74,17 @@ impl XmasGrid {
 pub struct AocDayFourSolution;
 
 impl AocSolution for AocDayFourSolution {
-    type Output = usize;
-    const INPUT: &str = include_str!("../../input/day4.txt");
+    type Output = u64;
 
-    fn part_one(&self) -> Self::Output {
-        let xmas = XmasGrid::new(Self::INPUT);
+    fn get_input(&self, path: Option<&Path>) -> Result<String> {
+        Ok(match path {
+            Some(p) => read_to_string(p)?,
+            None => read_to_string("./input/day_4.txt")?,
+        })
+    }
+
+    fn part_one(&self, input: &str) -> Result<Self::Output> {
+        let xmas = XmasGrid::new(input);
         let mut tmp = 0;
 
         xmas.grid
@@ -87,11 +94,11 @@ impl AocSolution for AocDayFourSolution {
                 tmp += xmas.find_xmas(pt);
             });
 
-        tmp as Self::Output
+        Ok(tmp as Self::Output)
     }
 
-    fn part_two(&self) -> Self::Output {
-        let xmas = XmasGrid::new(Self::INPUT);
+    fn part_two(&self, input: &str) -> Result<Self::Output> {
+        let xmas = XmasGrid::new(input);
         let mut tmp = 0;
 
         xmas.grid
@@ -101,6 +108,6 @@ impl AocSolution for AocDayFourSolution {
                 tmp += xmas.find_x_mas(pt);
             });
 
-        tmp as Self::Output
+        Ok(tmp as Self::Output)
     }
 }
