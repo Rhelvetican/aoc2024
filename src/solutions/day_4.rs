@@ -80,11 +80,12 @@ impl AocSolution for AocDayFourSolution {
         let xmas = XmasGrid::new(Self::INPUT);
         let mut tmp = 0;
 
-        for (&pos, &ch) in &xmas.grid {
-            if ch == 'X' {
-                tmp += xmas.find_xmas(pos)
-            }
-        }
+        xmas.grid
+            .iter()
+            .filter(|(_, &ch)| ch == 'X')
+            .for_each(|(&pt, _)| {
+                tmp += xmas.find_xmas(pt);
+            });
 
         tmp as Self::Output
     }
@@ -93,11 +94,12 @@ impl AocSolution for AocDayFourSolution {
         let xmas = XmasGrid::new(Self::INPUT);
         let mut tmp = 0;
 
-        for (&pos, &ch) in &xmas.grid {
-            if ch == 'A' {
-                tmp += xmas.find_x_mas(pos)
-            }
-        }
+        xmas.grid
+            .iter()
+            .filter(|(_, &ch)| ch == 'A')
+            .for_each(|(&pt, _)| {
+                tmp += xmas.find_x_mas(pt);
+            });
 
         tmp as Self::Output
     }
