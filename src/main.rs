@@ -2,10 +2,7 @@ use ansi_term::enable_ansi_support;
 use aoc2024::{
     cli::AocCli,
     map_solution,
-    solutions::{
-        AocDayFiveSolution, AocDayFourSolution, AocDayOneSolution, AocDayThreeSolution,
-        AocDayTwoSolution, AocSolution,
-    },
+    solutions::*,
     utils::{Error, Result},
 };
 use clap::Parser;
@@ -30,6 +27,7 @@ fn main() -> Result<()> {
         3 => AocDayThreeSolution,
         4 => AocDayFourSolution,
         5 => AocDayFiveSolution,
+        6 => AocDaySixSolution,
     };
 
     Ok(())
