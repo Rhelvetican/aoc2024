@@ -1,21 +1,21 @@
 use std::{collections::HashMap, fs::read_to_string, path::Path};
 
 use super::AocSolution;
-use crate::utils::Result;
+use crate::utils::{coord::Coord, Result};
 
-const DIRS: [(i16, i16); 8] = [
-    (1, 0),
-    (1, -1),
-    (0, -1),
-    (-1, -1),
-    (-1, 0),
-    (-1, 1),
-    (0, 1),
-    (1, 1),
+const DIRS: [Coord; 8] = [
+    Coord::new(1, 0),
+    Coord::new(1, -1),
+    Coord::new(0, -1),
+    Coord::new(-1, -1),
+    Coord::new(-1, 0),
+    Coord::new(-1, 1),
+    Coord::new(0, 1),
+    Coord::new(1, 1),
 ];
 
 struct XmasGrid {
-    pub grid: HashMap<(i16, i16), char>,
+    pub grid: HashMap<Coord, char>,
 }
 
 impl XmasGrid {
@@ -24,22 +24,20 @@ impl XmasGrid {
             grid: src
                 .lines()
                 .zip(0..)
-                .flat_map(|(l, y)| l.chars().zip(0..).map(move |(c, x)| ((x, y), c)))
+                .flat_map(|(l, y)| l.chars().zip(0..).map(move |(c, x)| (Coord::new(x, y), c)))
                 .collect(),
         }
     }
 
-    fn find_xmas(&self, pos: (i16, i16)) -> usize {
+    fn find_xmas(&self, pos: Coord) -> usize {
         let mut tmp = 0;
-        for (dx, dy) in DIRS {
+        for dir in DIRS {
             let mut found = true;
-            let (mut x, mut y) = pos;
 
             for nxt in ['M', 'A', 'S'] {
-                x += dx;
-                y += dy;
+                let nxt_pos = pos + dir;
 
-                if self.grid.get(&(x, y)) != Some(&nxt) {
+                if self.grid.get(&nxt_pos) != Some(&nxt) {
                     found = false;
                     break;
                 }
@@ -53,13 +51,13 @@ impl XmasGrid {
         tmp
     }
 
-    fn find_x_mas(&self, pos: (i16, i16)) -> usize {
-        let (x, y) = pos;
+    fn find_x_mas(&self, pos: Coord) -> usize {
+        let (x, y) = (pos.x, pos.y);
 
-        let tr = self.grid.get(&(x + 1, y + 1));
-        let br = self.grid.get(&(x + 1, y - 1));
-        let bl = self.grid.get(&(x - 1, y - 1));
-        let tl = self.grid.get(&(x - 1, y + 1));
+        let tr = self.grid.get(&Coord::new(x + 1, y + 1));
+        let br = self.grid.get(&Coord::new(x + 1, y - 1));
+        let bl = self.grid.get(&Coord::new(x - 1, y - 1));
+        let tl = self.grid.get(&Coord::new(x - 1, y + 1));
 
         match (tr, bl, tl, br) {
             (Some('S'), Some('M'), Some('M'), Some('S')) => 1,
