@@ -8,6 +8,8 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
+    #[error("Error parsing integer: {0}")]
+    ParseNumErr(#[from] std::num::ParseIntError),
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
     #[error("Invalid command usage: {0}")]
