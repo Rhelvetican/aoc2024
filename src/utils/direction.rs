@@ -1,6 +1,6 @@
 use std::ops::{Neg, Not};
 
-use super::coord::Coord;
+use super::{coord::Coord, Unit};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Direction {
@@ -34,12 +34,12 @@ impl Direction {
         *self = !*self
     }
 
-    pub fn lookahead(&self) -> Coord {
+    pub fn lookahead<U: Unit>(&self) -> Coord<U> {
         match self {
-            Self::Up => Coord::new(0, -1),
-            Self::Right => Coord::new(1, 0),
-            Self::Down => Coord::new(0, 1),
-            Self::Left => Coord::new(-1, 0),
+            Self::Up => Coord::new(0.into(), (-1).into()),
+            Self::Right => Coord::new(1.into(), 0.into()),
+            Self::Down => Coord::new(0.into(), 1.into()),
+            Self::Left => Coord::new((-1).into(), 0.into()),
         }
     }
 }

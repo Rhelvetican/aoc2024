@@ -1,4 +1,4 @@
-use std::{fs::read_to_string, ops::Mul, path::Path};
+use std::{fs::read_to_string, path::Path};
 
 use super::AocSolution;
 use crate::utils::Result;

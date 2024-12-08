@@ -11,3 +11,12 @@ macro_rules! map_solution {
         }
     };
 }
+
+#[macro_export]
+macro_rules! impl_unit_for_type {
+    ($($type:ty),+ $(,)?) => {
+        $(
+        impl $crate::utils::Unit for $type {}
+        )+
+    };
+}

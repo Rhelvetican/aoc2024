@@ -10,8 +10,8 @@ use crate::utils::{coord::Coord, direction::Direction, Result};
 #[derive(Debug, Clone)]
 struct Guard {
     dir: Direction,
-    cur: Coord,
-    grid: HashMap<Coord, bool>,
+    cur: Coord<i16>,
+    grid: HashMap<Coord<i16>, bool>,
 }
 
 impl Guard {

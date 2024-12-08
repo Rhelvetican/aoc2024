@@ -3,7 +3,7 @@ use std::{collections::HashMap, fs::read_to_string, path::Path};
 use super::AocSolution;
 use crate::utils::{coord::Coord, Result};
 
-const DIRS: [Coord; 8] = [
+const DIRS: [Coord<i16>; 8] = [
     Coord::new(1, 0),
     Coord::new(1, -1),
     Coord::new(0, -1),
@@ -15,7 +15,7 @@ const DIRS: [Coord; 8] = [
 ];
 
 struct XmasGrid {
-    pub grid: HashMap<Coord, char>,
+    pub grid: HashMap<Coord<i16>, char>,
 }
 
 impl XmasGrid {
@@ -29,7 +29,7 @@ impl XmasGrid {
         }
     }
 
-    fn find_xmas(&self, pos: Coord) -> usize {
+    fn find_xmas(&self, pos: Coord<i16>) -> usize {
         let mut tmp = 0;
         for dir in DIRS {
             let mut found = true;
@@ -51,7 +51,7 @@ impl XmasGrid {
         tmp
     }
 
-    fn find_x_mas(&self, pos: Coord) -> usize {
+    fn find_x_mas(&self, pos: Coord<i16>) -> usize {
         let (x, y) = (pos.x, pos.y);
 
         let tr = self.grid.get(&Coord::new(x + 1, y + 1));
