@@ -21,4 +21,13 @@ pub enum Error {
     InvalidInput,
     #[error("Unsupported day.")]
     UnsupportedDay,
+    #[error("{0}")]
+    CustomError(String),
+}
+
+#[macro_export]
+macro_rules! err {
+    ($lit:literal) => {
+        $crate::utils::Error::CustomError($lit.to_string())
+    };
 }

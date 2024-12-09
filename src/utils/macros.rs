@@ -1,6 +1,6 @@
 #[macro_export]
 macro_rules! map_solution {
-    ($cli:ident : $($day:expr => $sol:expr,)+ $(,)?) => {
+    ($cli:ident : $($day:expr => $sol:expr),+ $(,)?) => {
         match $cli .day {
             $($day => {
                 let sol = $sol;

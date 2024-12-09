@@ -30,6 +30,7 @@ fn main() -> Result<()> {
         6 => AocDaySixSolution,
         7 => AocDaySevenSolution,
         8 => AocDayEightSolution,
+        9 => AocDayNineSolution
     };
 
     Ok(())
