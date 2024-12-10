@@ -13,8 +13,19 @@ pub struct Coord<U: Unit> {
 }
 
 impl<U: Unit> Coord<U> {
+    #[inline(always)]
     pub const fn new(x: U, y: U) -> Self {
         Self { x, y }
+    }
+
+    #[inline(always)]
+    pub fn surround(&self) -> [Self; 4] {
+        [
+            Self::new(self.x - U::from(1), self.y),
+            Self::new(self.x, self.y + U::from(1)),
+            Self::new(self.x + U::from(1), self.y),
+            Self::new(self.x, self.y - U::from(1)),
+        ]
     }
 }
 
