@@ -10,7 +10,7 @@ use crate::utils::{coord::Coord as Crd, Result};
 type Coord = Crd<i8>;
 
 struct HikingMap {
-    pub starting_points: HashSet<Coord>,
+    pub starting_points: Vec<Coord>,
     pub mountain: HashMap<Coord, u8>,
 }
 
@@ -35,10 +35,10 @@ impl HikingMap {
                 })
             })
             .fold(
-                (HashSet::new(), HashMap::new()),
+                (Vec::new(), HashMap::new()),
                 |(mut spos, mut map), (coord, heigh)| {
                     if heigh == 0 {
-                        spos.insert(coord);
+                        spos.push(coord);
                     }
 
                     map.insert(coord, heigh);
